@@ -8,8 +8,7 @@ import javax.persistence.*
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
-class BaseEntity {
-    
+abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
@@ -20,17 +19,4 @@ class BaseEntity {
     @LastModifiedDate
     lateinit var updateAt: Instant
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-        val otherEntity = (other as BaseEntity) ?: return false
-        return this.id == otherEntity.id
-    }
-
-    override fun hashCode(): Int {
-        val prime = 59
-        val result = 1
-
-        return result * prime + (id?.hashCode() ?: 43)
-    }
 }
