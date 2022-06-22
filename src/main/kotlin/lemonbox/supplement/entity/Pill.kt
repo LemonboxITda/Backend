@@ -1,6 +1,6 @@
 package lemonbox.supplement.entity
 
-import lemonbox.supplement.data.CheckType
+import lemonbox.supplement.data.PillStatus
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -12,7 +12,7 @@ class Pill (
     var supplement: Supplement,
 
     @Column
-    var status: CheckType,
+    var status: PillStatus,
 
     @Column
     var date: LocalDateTime,

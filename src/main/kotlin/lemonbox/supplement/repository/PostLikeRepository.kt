@@ -3,5 +3,5 @@ package lemonbox.supplement.repository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface LikeRepository {
+interface PostLikeRepository {
 }

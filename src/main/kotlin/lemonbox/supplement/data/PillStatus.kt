@@ -1,4 +1,4 @@
 package lemonbox.supplement.data
 
-enum class CheckType {
+enum class PillStatus {
 }

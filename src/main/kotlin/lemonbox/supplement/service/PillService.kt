@@ -3,5 +3,5 @@ package lemonbox.supplement.service
 import org.springframework.stereotype.Service
 
 @Service
-class LikeService {
-}
+class PillService (
+)

@@ -1,4 +1,4 @@
 package lemonbox.supplement.controller
 
-class LikeController {
+class PostLikeController {
 }
