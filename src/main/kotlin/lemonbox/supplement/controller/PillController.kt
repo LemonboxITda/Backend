@@ -1,4 +1,4 @@
 package lemonbox.supplement.controller
 
-class CheckController {
+class PillController {
 }
