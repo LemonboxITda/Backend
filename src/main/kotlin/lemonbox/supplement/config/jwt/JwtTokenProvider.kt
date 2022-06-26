@@ -3,9 +3,9 @@ package lemonbox.supplement.config.jwt
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import lemonbox.supplement.config.property.JwtProperty
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication
 import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Component
 import java.util.*
@@ -34,16 +34,16 @@ class JwtTokenProvider(
         return generate(username, ONE_DAY * 180, roles, secretKey)
     }
 
-    fun decodeAccessToken(accessToken: String): String {
-        return decode(secretKey, accessToken)
+    fun validateAccessToken(accessToken: String): Boolean {
+        return validate(secretKey, accessToken)
     }
 
     fun getRefreshToken(username: String, roles: Array<String>): String {
         return generate(username, ONE_DAY * 180, roles, refreshKey)
     }
 
-    fun decodeRefreshToken(refreshToken: String): String {
-        return decode(refreshKey, refreshToken)
+    fun validateRefreshToken(refreshToken: String): Boolean {
+        return validate(refreshKey, refreshToken)
     }
 
     private fun generate(username: String, expirationInMillis: Long, roles: Array<String>, signature: String): String {
@@ -59,8 +59,9 @@ class JwtTokenProvider(
             .compact()
     }
 
-    private fun decode(signature: String, token: String) {
-
+    fun validate(signature: String, token: String): Boolean {
+        val claims = Jwts.parser().setSigningKey(signature).parseClaimsJws(token)
+        return true
     }
 
     fun getAuthentication(accessToken: String): Authentication {
@@ -71,5 +72,4 @@ class JwtTokenProvider(
     private fun getUsername(accessToken: String): String {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(accessToken).body.subject
     }
-
 }
