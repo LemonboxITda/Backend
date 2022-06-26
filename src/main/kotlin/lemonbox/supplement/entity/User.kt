@@ -2,18 +2,19 @@ package lemonbox.supplement.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import lemonbox.supplement.data.RoleType
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
 import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
 class User (
-
     @Column(unique = true)
-    var login_id: Int,
+    var loginId: Int,
 
     @JsonIgnore
     @Column
-    var password: String,
+    private var password: String,
 
     @Column
     var email: String,
@@ -41,4 +42,33 @@ class User (
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "user")
     var postLikeList: MutableList<PostLike> = mutableListOf()
-): BaseEntity()
+): BaseEntity(), UserDetails {
+    override fun getAuthorities(): MutableCollection<out GrantedAuthority>? {
+        return null
+    }
+
+    override fun getPassword(): String {
+        return this.password
+    }
+
+    override fun getUsername(): String {
+        return this.username
+    }
+
+    override fun isAccountNonExpired(): Boolean {
+        return true
+    }
+
+    override fun isAccountNonLocked(): Boolean {
+        return true
+    }
+
+    override fun isCredentialsNonExpired(): Boolean {
+        return true
+    }
+
+    override fun isEnabled(): Boolean {
+        return true
+    }
+
+}
