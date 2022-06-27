@@ -23,6 +23,7 @@ class User (
     var nickname: String,
 
     @Column
+    @Enumerated(EnumType.STRING)
     var role: RoleType,
 
     @Column
