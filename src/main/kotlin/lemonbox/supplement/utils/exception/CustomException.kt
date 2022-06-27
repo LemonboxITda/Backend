@@ -1,4 +1,5 @@
 package lemonbox.supplement.utils.exception
 
-class CustomException {
-}
+class CustomException(
+    val errorCode: ErrorCode
+): RuntimeException()

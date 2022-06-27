@@ -13,3 +13,7 @@ spring:
     console:
       enabled: true
       path: /h2-console
+
+jwt:
+  secret: lemonbox
+  refresh: supplement
