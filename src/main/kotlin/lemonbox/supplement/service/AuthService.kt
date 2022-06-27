@@ -1,10 +1,7 @@
 package lemonbox.supplement.service
 
 import lemonbox.supplement.config.jwt.JwtTokenProvider
-import lemonbox.supplement.data.RoleType
-import lemonbox.supplement.data.SigninRequestDto
-import lemonbox.supplement.data.SignupRequestDto
-import lemonbox.supplement.data.SignupResponseDto
+import lemonbox.supplement.data.*
 import lemonbox.supplement.entity.User
 import lemonbox.supplement.repository.UserRepository
 import lemonbox.supplement.utils.exception.CustomException
@@ -27,16 +24,28 @@ class AuthService(
     }
 
     @Transactional
-    fun signup(requestDto: SignupRequestDto): SignupResponseDto {
+    fun signUp(requestDto: SignUpRequestDto): UserInfo {
         if (validateNickname(requestDto.nickname)) throw CustomException(ErrorCode.USER_ID_DUPLICATED)
         if (validateLoginId(requestDto.loginId)) throw CustomException(ErrorCode.USER_NICKNAME_DUPLICATED)
 
         requestDto.password = passwordEncoder.encode(requestDto.password)
-        return SignupResponseDto(userRepository.save(User(requestDto)))
+        return UserInfo(userRepository.save(User(requestDto)))
     }
 
-    fun signin(requestDto: SigninRequestDto) {
-        
+    @Transactional
+    fun signIn(requestDto: SignInRequestDto): SignInResponseDto {
+        val user : User = userRepository.findByLoginId(requestDto.loginId)
+            ?: throw CustomException(ErrorCode.USER_LOGIN_FAIL)
+
+        if (!passwordEncoder.matches(requestDto.password, user.password))
+            throw CustomException(ErrorCode.USER_LOGIN_FAIL)
+
+        //TODO: refreshToken 넣기
+        return SignInResponseDto(
+            refreshToken = "",
+            accessToken = createToken(user.loginId),
+            userInfo = UserInfo(user)
+        )
     }
 
     fun validateNickname(nickname: String): Boolean {

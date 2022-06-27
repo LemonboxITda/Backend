@@ -2,7 +2,7 @@ package lemonbox.supplement.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import lemonbox.supplement.data.RoleType
-import lemonbox.supplement.data.SignupRequestDto
+import lemonbox.supplement.data.SignUpRequestDto
 import lombok.NoArgsConstructor
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -75,7 +75,7 @@ class User (
         return true
     }
 
-    constructor(requestDto: SignupRequestDto): this(
+    constructor(requestDto: SignUpRequestDto): this(
         loginId = requestDto.loginId,
         password = requestDto.password,
         nickname = requestDto.nickname,

@@ -1,7 +1,7 @@
 package lemonbox.supplement.controller
 
-import lemonbox.supplement.data.SigninRequestDto
-import lemonbox.supplement.data.SignupRequestDto
+import lemonbox.supplement.data.SignInRequestDto
+import lemonbox.supplement.data.SignUpRequestDto
 import lemonbox.supplement.service.AuthService
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -16,16 +16,16 @@ class AuthController(
 ) {
 
     @PostMapping("/signup")
-    fun signup(@RequestBody requestDto: SignupRequestDto): ResponseEntity<Any> {
+    fun signup(@RequestBody requestDto: SignUpRequestDto): ResponseEntity<Any> {
         return ResponseEntity
             .ok()
-            .body(authService.signup(requestDto))
+            .body(authService.signUp(requestDto))
     }
 
     @PostMapping("/signin")
-    fun signin(@RequestBody requestDto: SigninRequestDto): ResponseEntity<Any> {
+    fun signin(@RequestBody requestDto: SignInRequestDto): ResponseEntity<Any> {
         return ResponseEntity
             .ok()
-            .body(authService.signin(requestDto))
+            .body(authService.signIn(requestDto))
     }
 }
