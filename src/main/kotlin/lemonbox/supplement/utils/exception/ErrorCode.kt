@@ -7,6 +7,9 @@ enum class ErrorCode(
     val message: String,
 ) {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "계정이 존재하지 않습니다."),
+    USER_ID_DUPLICATED(HttpStatus.CONFLICT, "중복된 ID가 존재합니다."),
+    USER_NICKNAME_DUPLICATED(HttpStatus.CONFLICT, "중복된 닉네임이 존재합니다."),
+
     TOKEN_INVALID_SIGNATURE(HttpStatus.NOT_FOUND, "Invalid JWT signature"),
     TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "Invalid JWT token"),
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "Expired JWT token"),
