@@ -7,6 +7,7 @@ import lemonbox.supplement.config.jwt.JwtTokenProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
@@ -32,6 +33,8 @@ class SecurityConfig(
         return super.authenticationManagerBean()
     }
 
+
+    @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http
             .addFilter(corsConfig.corsFilter())
@@ -49,10 +52,18 @@ class SecurityConfig(
             .and()
             .formLogin().disable()
             .httpBasic().disable()
+            .headers().frameOptions().disable()
+
+            .and()
             .authorizeRequests()
+            .antMatchers("/h2-console/**", "/**").permitAll()
             .anyRequest().permitAll()
 
             .and()
             .addFilterBefore(JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter::class.java)
+    }
+
+    @Throws(Exception::class)
+    override fun configure(auth: AuthenticationManagerBuilder?) {
     }
 }
