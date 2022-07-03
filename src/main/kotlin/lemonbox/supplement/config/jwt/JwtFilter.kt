@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.MalformedJwtException
 import io.jsonwebtoken.UnsupportedJwtException
-import lemonbox.supplement.utils.exception.ErrorCode
+import lemonbox.supplement.utils.exception.ResponseCode
 import lemonbox.supplement.utils.exception.ErrorResponse
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
@@ -33,19 +33,19 @@ class JwtFilter(
                 try {
                     jwtTokenProvider.validateAccessToken(it)
                 } catch (e: SignatureException) {
-                    sendErrorResponse(response, ErrorCode.TOKEN_INVALID_SIGNATURE)
+                    sendErrorResponse(response, ResponseCode.TOKEN_INVALID_SIGNATURE)
                     return
                 } catch (e: MalformedJwtException) {
-                    sendErrorResponse(response, ErrorCode.TOKEN_INVALID)
+                    sendErrorResponse(response, ResponseCode.TOKEN_INVALID)
                     return
                 } catch (e: ExpiredJwtException) {
-                    sendErrorResponse(response, ErrorCode.TOKEN_EXPIRED)
+                    sendErrorResponse(response, ResponseCode.TOKEN_EXPIRED)
                     return
                 } catch (e: UnsupportedJwtException) {
-                    sendErrorResponse(response, ErrorCode.TOKEN_UNSUPPORTED)
+                    sendErrorResponse(response, ResponseCode.TOKEN_UNSUPPORTED)
                     return
                 } catch (e: java.lang.IllegalArgumentException) {
-                    sendErrorResponse(response, ErrorCode.TOKEN_EMPTY)
+                    sendErrorResponse(response, ResponseCode.TOKEN_EMPTY)
                     return
                 }
 
@@ -64,11 +64,11 @@ class JwtFilter(
         return null
     }
 
-    private fun sendErrorResponse(response: HttpServletResponse, errorCode: ErrorCode) {
+    private fun sendErrorResponse(response: HttpServletResponse, responseCode: ResponseCode) {
         val objectMapper = ObjectMapper()
         response.contentType = "application/json"
 
-        val jsonString = objectMapper.writeValueAsString(ErrorResponse.toResponseEntity(errorCode))
+        val jsonString = objectMapper.writeValueAsString(ErrorResponse.toResponseEntity(responseCode))
         response.writer.print(jsonString)
         response.writer.flush()
     }

@@ -1,5 +1,5 @@
 package lemonbox.supplement.utils.exception
 
 class CustomException(
-    val errorCode: ErrorCode
+    val responseCode: ResponseCode
 ): RuntimeException()

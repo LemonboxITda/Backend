@@ -13,11 +13,10 @@ import lemonbox.supplement.data.SignUpRequestDto
 import lemonbox.supplement.data.UserInfo
 import lemonbox.supplement.service.AuthService
 import lemonbox.supplement.utils.exception.ErrorResponse
+import lemonbox.supplement.utils.exception.ResponseCode
+import lemonbox.supplement.utils.exception.ResponseMessage
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @Tag(name = "auth", description = "로그인/회원가입 API")
 @RestController
@@ -54,5 +53,57 @@ class AuthController(
         return ResponseEntity
             .ok()
             .body(authService.signIn(requestDto))
+    }
+
+    @GetMapping("/check/nickname")
+    fun checkNickname(@RequestParam nickname: String): ResponseEntity<Any> {
+        val responseCode = authService.validateNickname(nickname)
+
+        if (responseCode == ResponseCode.OK)
+            return ResponseEntity
+                .ok()
+                .body(
+                    ResponseMessage(
+                        status = responseCode.httpStatus.value(),
+                        message = "사용 가능한 닉네임입니다."
+                    )
+                )
+
+        return ResponseEntity
+            .status(responseCode.httpStatus.value())
+            .body(
+                ErrorResponse(
+                    status = responseCode.httpStatus.value(),
+                    error = responseCode.httpStatus.name,
+                    code = responseCode.name,
+                    message = responseCode.message
+                )
+            )
+    }
+
+    @GetMapping("/check/id")
+    fun checkLoginId(@RequestParam loginId: String): ResponseEntity<Any> {
+        val responseCode = authService.validateLoginId(loginId)
+
+        if (responseCode == ResponseCode.OK)
+            return ResponseEntity
+                .ok()
+                .body(
+                    ResponseMessage(
+                        status = responseCode.httpStatus.value(),
+                        message = "사용 가능한 아이디입니다."
+                    )
+                )
+
+        return ResponseEntity
+            .status(responseCode.httpStatus.value())
+            .body(
+                ErrorResponse(
+                    status = responseCode.httpStatus.value(),
+                    error = responseCode.httpStatus.name,
+                    code = responseCode.name,
+                    message = responseCode.message
+                )
+            )
     }
 }
