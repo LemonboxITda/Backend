@@ -1,7 +1,7 @@
 package lemonbox.supplement.config.jwt
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import lemonbox.supplement.utils.exception.ErrorCode
+import lemonbox.supplement.utils.exception.ResponseCode
 import lemonbox.supplement.utils.exception.ErrorResponse
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.AuthenticationEntryPoint
@@ -21,7 +21,7 @@ class JwtAuthenticationEntryPoint: AuthenticationEntryPoint {
     ) {
         val objectMapper = ObjectMapper()
         response.contentType = "application/json"
-        val jsonString = objectMapper.writeValueAsString(ErrorResponse.toResponseEntity(ErrorCode.TOKEN_INVALID))
+        val jsonString = objectMapper.writeValueAsString(ErrorResponse.toResponseEntity(ResponseCode.TOKEN_INVALID))
         response.writer.print(jsonString)
         response.writer.flush()
     }

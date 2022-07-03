@@ -13,11 +13,10 @@ import lemonbox.supplement.data.SignUpRequestDto
 import lemonbox.supplement.data.UserInfo
 import lemonbox.supplement.service.AuthService
 import lemonbox.supplement.utils.exception.ErrorResponse
+import lemonbox.supplement.utils.exception.ResponseCode
+import lemonbox.supplement.utils.exception.ResponseMessage
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @Tag(name = "auth", description = "로그인/회원가입 API")
 @RestController
@@ -54,5 +53,75 @@ class AuthController(
         return ResponseEntity
             .ok()
             .body(authService.signIn(requestDto))
+    }
+
+    @Operation(summary = "닉네임 중복확인")
+    @ApiResponses(value = [
+        ApiResponse(responseCode = "200", description = "사용 가능한 닉네임입니다.", content = [
+            Content(mediaType = "application/json", array = (ArraySchema(schema = Schema(implementation = ResponseMessage::class))))]),
+        ApiResponse(responseCode = "409", description = "이미 같은 닉네임을 사용하는 유저가 존재합니다.", content = [
+            Content(mediaType = "application/json", array = (ArraySchema(schema = Schema(implementation = ErrorResponse::class))))]),
+        ApiResponse(responseCode = "401", description = "닉네임 형식이 올바르지 않습니다.", content = [
+            Content(mediaType = "application/json", array = (ArraySchema(schema = Schema(implementation = ErrorResponse::class))))])
+    ])
+    @GetMapping("/check/nickname")
+    fun checkNickname(@RequestParam nickname: String): ResponseEntity<Any> {
+        val responseCode = authService.validateNickname(nickname)
+
+        if (responseCode == ResponseCode.OK)
+            return ResponseEntity
+                .ok()
+                .body(
+                    ResponseMessage(
+                        status = responseCode.httpStatus.value(),
+                        message = "사용 가능한 닉네임입니다."
+                    )
+                )
+
+        return ResponseEntity
+            .status(responseCode.httpStatus.value())
+            .body(
+                ErrorResponse(
+                    status = responseCode.httpStatus.value(),
+                    error = responseCode.httpStatus.name,
+                    code = responseCode.name,
+                    message = responseCode.message
+                )
+            )
+    }
+
+    @Operation(summary = "아이디 중복확인")
+    @ApiResponses(value = [
+        ApiResponse(responseCode = "200", description = "사용 가능한 아이디입니다.", content = [
+            Content(mediaType = "application/json", array = (ArraySchema(schema = Schema(implementation = ResponseMessage::class))))]),
+        ApiResponse(responseCode = "409", description = "이미 같은 아이디를 사용하는 유저가 존재합니다.", content = [
+            Content(mediaType = "application/json", array = (ArraySchema(schema = Schema(implementation = ErrorResponse::class))))]),
+        ApiResponse(responseCode = "401", description = "아이디 형식이 올바르지 않습니다.", content = [
+            Content(mediaType = "application/json", array = (ArraySchema(schema = Schema(implementation = ErrorResponse::class))))])
+    ])
+    @GetMapping("/check/id")
+    fun checkLoginId(@RequestParam loginId: String): ResponseEntity<Any> {
+        val responseCode = authService.validateLoginId(loginId)
+
+        if (responseCode == ResponseCode.OK)
+            return ResponseEntity
+                .ok()
+                .body(
+                    ResponseMessage(
+                        status = responseCode.httpStatus.value(),
+                        message = "사용 가능한 아이디입니다."
+                    )
+                )
+
+        return ResponseEntity
+            .status(responseCode.httpStatus.value())
+            .body(
+                ErrorResponse(
+                    status = responseCode.httpStatus.value(),
+                    error = responseCode.httpStatus.name,
+                    code = responseCode.name,
+                    message = responseCode.message
+                )
+            )
     }
 }

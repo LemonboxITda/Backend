@@ -11,15 +11,15 @@ class ErrorResponse(
     val message: String,
 ) {
     companion object {
-        fun toResponseEntity(errorCode: ErrorCode): ResponseEntity<ErrorResponse> {
+        fun toResponseEntity(responseCode: ResponseCode): ResponseEntity<ErrorResponse> {
             return ResponseEntity
-                .status(errorCode.httpStatus.value())
+                .status(responseCode.httpStatus.value())
                 .body(
                     ErrorResponse(
-                        status = errorCode.httpStatus.value(),
-                        error = errorCode.httpStatus.name,
-                        code = errorCode.name,
-                        message = errorCode.message
+                        status = responseCode.httpStatus.value(),
+                        error = responseCode.httpStatus.name,
+                        code = responseCode.name,
+                        message = responseCode.message
                     )
                 )
         }
