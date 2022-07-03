@@ -55,6 +55,15 @@ class AuthController(
             .body(authService.signIn(requestDto))
     }
 
+    @Operation(summary = "닉네임 중복확인")
+    @ApiResponses(value = [
+        ApiResponse(responseCode = "200", description = "사용 가능한 닉네임입니다.", content = [
+            Content(mediaType = "application/json", array = (ArraySchema(schema = Schema(implementation = ResponseMessage::class))))]),
+        ApiResponse(responseCode = "409", description = "이미 같은 닉네임을 사용하는 유저가 존재합니다.", content = [
+            Content(mediaType = "application/json", array = (ArraySchema(schema = Schema(implementation = ErrorResponse::class))))]),
+        ApiResponse(responseCode = "401", description = "닉네임 형식이 올바르지 않습니다.", content = [
+            Content(mediaType = "application/json", array = (ArraySchema(schema = Schema(implementation = ErrorResponse::class))))])
+    ])
     @GetMapping("/check/nickname")
     fun checkNickname(@RequestParam nickname: String): ResponseEntity<Any> {
         val responseCode = authService.validateNickname(nickname)
@@ -81,6 +90,15 @@ class AuthController(
             )
     }
 
+    @Operation(summary = "아이디 중복확인")
+    @ApiResponses(value = [
+        ApiResponse(responseCode = "200", description = "사용 가능한 아이디입니다.", content = [
+            Content(mediaType = "application/json", array = (ArraySchema(schema = Schema(implementation = ResponseMessage::class))))]),
+        ApiResponse(responseCode = "409", description = "이미 같은 아이디를 사용하는 유저가 존재합니다.", content = [
+            Content(mediaType = "application/json", array = (ArraySchema(schema = Schema(implementation = ErrorResponse::class))))]),
+        ApiResponse(responseCode = "401", description = "아이디 형식이 올바르지 않습니다.", content = [
+            Content(mediaType = "application/json", array = (ArraySchema(schema = Schema(implementation = ErrorResponse::class))))])
+    ])
     @GetMapping("/check/id")
     fun checkLoginId(@RequestParam loginId: String): ResponseEntity<Any> {
         val responseCode = authService.validateLoginId(loginId)
