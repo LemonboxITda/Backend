@@ -72,6 +72,4 @@ class JwtFilter(
         response.writer.print(jsonString)
         response.writer.flush()
     }
-
-
 }

@@ -26,5 +26,5 @@ enum class ResponseCode(
 
 data class ResponseMessage(
     val status: Int,
-    val message: String
+    val message: Any
 )
