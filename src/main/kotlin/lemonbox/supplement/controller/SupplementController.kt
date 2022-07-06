@@ -7,6 +7,7 @@ import lemonbox.supplement.utils.exception.ResponseMessage
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.servlet.http.HttpServletRequest
 
 @Tag(name = "supplement", description = "영양제 API")
 @RestController
@@ -16,10 +17,11 @@ class SupplementController(
 ) {
 
     @PostMapping
-    fun createSupplement(@RequestBody requestDto: SupplementRequestDto): ResponseEntity<Any> {
+    fun createSupplement(@RequestBody requestDto: SupplementRequestDto, request: HttpServletRequest): ResponseEntity<Any> {
+        val loginId = request.userPrincipal.name
         return ResponseEntity
             .ok()
-            .body(supplementService.createSupplement(requestDto))
+            .body(supplementService.createSupplement(loginId, requestDto))
     }
 
     @PutMapping
@@ -33,13 +35,13 @@ class SupplementController(
     }
 
     @GetMapping
-    fun readAllByUser(): ResponseEntity<Any> {
-        // TODO: USER ID 불러오기
-        val userId = 0L
+    fun readAllByUser(request: HttpServletRequest): ResponseEntity<Any> {
+        // TODO: SecurityConfig에 접근 가능한 URL 설정
+        val loginId = request.userPrincipal!!.name
 
         return ResponseEntity
             .ok()
-            .body(supplementService.readAllByUserId(userId))
+            .body(supplementService.readAllByUserLoginId(loginId))
     }
 
     @DeleteMapping

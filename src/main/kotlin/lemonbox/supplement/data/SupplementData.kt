@@ -4,7 +4,6 @@ import lemonbox.supplement.entity.Supplement
 
 data class SupplementRequestDto (
     var name: String,
-    var userId: String,
     var count: Int,
 )
 

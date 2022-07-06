@@ -14,8 +14,8 @@ class SupplementService (
     private val supplementRepository: SupplementRepository,
     private val userRepository: UserRepository,
 ) {
-    fun createSupplement(requestDto: SupplementRequestDto): SupplementResponseDto {
-        val user = userRepository.findByLoginId(requestDto.userId)
+    fun createSupplement(loginId: String, requestDto: SupplementRequestDto): SupplementResponseDto {
+        val user = userRepository.findByLoginId(loginId)
             ?: throw CustomException(ResponseCode.USER_NOT_FOUND)
 
         val supplement = Supplement(requestDto, user)
@@ -40,10 +40,8 @@ class SupplementService (
         supplementRepository.delete(supplement)
     }
 
-    fun readAllByUserId(userId: Long): List<SupplementResponseDto> {
-        val user = userRepository.findById(userId).orElseThrow {
-            throw CustomException(ResponseCode.USER_NOT_FOUND)
-        }
+    fun readAllByUserLoginId(loginId: String): List<SupplementResponseDto> {
+        val user = userRepository.findByLoginId(loginId)?: throw CustomException(ResponseCode.USER_NOT_FOUND)
 
         var responseDtoList = mutableListOf<SupplementResponseDto>()
         supplementRepository.findByUser(user).forEach {

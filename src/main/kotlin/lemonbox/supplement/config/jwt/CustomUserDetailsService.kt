@@ -13,6 +13,6 @@ class CustomUserDetailsService(
 ): UserDetailsService {
 
     override fun loadUserByUsername(username: String): UserDetails {
-        return userRepository.findByNickname(username)?: throw CustomException(ResponseCode.USER_NOT_FOUND)
+        return userRepository.findByLoginId(username)?: throw CustomException(ResponseCode.USER_NOT_FOUND)
     }
 }
