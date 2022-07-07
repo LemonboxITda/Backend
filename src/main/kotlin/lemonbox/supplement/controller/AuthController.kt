@@ -1,6 +1,7 @@
 package lemonbox.supplement.controller
 
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -65,7 +66,7 @@ class AuthController(
             Content(mediaType = "application/json", array = (ArraySchema(schema = Schema(implementation = ErrorResponse::class))))])
     ])
     @GetMapping("/check/nickname")
-    fun checkNickname(@RequestParam nickname: String): ResponseEntity<Any> {
+    fun checkNickname(@Parameter(description = "닉네임") @RequestParam nickname: String): ResponseEntity<Any> {
         val responseCode = authService.validateNickname(nickname)
 
         if (responseCode == ResponseCode.OK)
@@ -100,7 +101,7 @@ class AuthController(
             Content(mediaType = "application/json", array = (ArraySchema(schema = Schema(implementation = ErrorResponse::class))))])
     ])
     @GetMapping("/check/id")
-    fun checkLoginId(@RequestParam loginId: String): ResponseEntity<Any> {
+    fun checkLoginId(@Parameter(description = "로그인 ID") @RequestParam loginId: String): ResponseEntity<Any> {
         val responseCode = authService.validateLoginId(loginId)
 
         if (responseCode == ResponseCode.OK)
