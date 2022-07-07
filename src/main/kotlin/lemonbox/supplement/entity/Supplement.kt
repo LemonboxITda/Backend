@@ -1,5 +1,6 @@
 package lemonbox.supplement.entity
 
+import lemonbox.supplement.data.SupplementRequestDto
 import javax.persistence.*
 
 @Entity
@@ -18,4 +19,14 @@ class Supplement (
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "supplement")
     var pillList: MutableList<Pill> = mutableListOf()
 
-): BaseEntity()
+): BaseEntity() {
+    constructor(requestDto: SupplementRequestDto, user: User): this(
+        name = requestDto.name,
+        user = user,
+        count = requestDto.count
+    )
+
+    fun updateCount(count: Int) {
+        this.count = count
+    }
+}

@@ -22,6 +22,8 @@ enum class ResponseCode(
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "Expired JWT token"),
     TOKEN_UNSUPPORTED(HttpStatus.UNAUTHORIZED, "Unsupported JWT token"),
     TOKEN_EMPTY(HttpStatus.UNAUTHORIZED, "JWT claims string is empty"),
+
+    SUPPLEMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 ID의 영양제가 존재하지 않습니다."),
 }
 
 data class ResponseMessage(

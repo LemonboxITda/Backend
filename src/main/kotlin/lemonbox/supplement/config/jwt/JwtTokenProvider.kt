@@ -21,7 +21,7 @@ class JwtTokenProvider(
 
     private val ONE_DAY: Long = 1000 * 60 * 60 * 24
     private val ONE_WEEK: Long = ONE_DAY * 7
-
+    private val BEARER_PREFIX = "Bearer "
     private val LOG = LoggerFactory.getLogger(JwtTokenProvider::class.java)
 
     @PostConstruct
@@ -30,24 +30,24 @@ class JwtTokenProvider(
         refreshKey = Base64.getEncoder().encodeToString(jwtProperty.refresh.toByteArray())
     }
 
-    fun getAccessToken(username: String, roles: Array<String>): String {
-        return generate(username, ONE_DAY * 180, roles, secretKey)
+    fun getAccessToken(loginId: String, roles: Array<String>): String {
+        return BEARER_PREFIX + generate(loginId, ONE_DAY * 180, roles, secretKey)
     }
 
     fun validateAccessToken(accessToken: String): Boolean {
         return validate(secretKey, accessToken)
     }
 
-    fun getRefreshToken(username: String, roles: Array<String>): String {
-        return generate(username, ONE_DAY * 180, roles, refreshKey)
+    fun getRefreshToken(loginId: String, roles: Array<String>): String {
+        return BEARER_PREFIX + generate(loginId, ONE_DAY * 180, roles, refreshKey)
     }
 
     fun validateRefreshToken(refreshToken: String): Boolean {
         return validate(refreshKey, refreshToken)
     }
 
-    private fun generate(username: String, expirationInMillis: Long, roles: Array<String>, signature: String): String {
-        val claims = Jwts.claims().setSubject(username)
+    private fun generate(loginId: String, expirationInMillis: Long, roles: Array<String>, signature: String): String {
+        val claims = Jwts.claims().setSubject(loginId)
         claims["roles"] = roles
 
         val now = Date()
@@ -65,11 +65,11 @@ class JwtTokenProvider(
     }
 
     fun getAuthentication(accessToken: String): Authentication {
-        val userDetails = userDetailsService.loadUserByUsername(getUsername(accessToken))
+        val userDetails = userDetailsService.loadUserByUsername(getLoginId(accessToken))
         return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
     }
 
-    private fun getUsername(accessToken: String): String {
+    private fun getLoginId(accessToken: String): String {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(accessToken).body.subject
     }
 }

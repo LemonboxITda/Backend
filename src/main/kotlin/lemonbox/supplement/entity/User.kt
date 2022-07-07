@@ -34,6 +34,7 @@ class User (
 
     @Column
     var profileImage: String?,
+
 ): BaseEntity(), UserDetails {
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "user")
@@ -57,7 +58,7 @@ class User (
     }
 
     override fun getUsername(): String {
-        return this.username
+        return this.loginId
     }
 
     override fun isAccountNonExpired(): Boolean {
