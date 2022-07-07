@@ -21,7 +21,7 @@ class JwtTokenProvider(
 
     private val ONE_DAY: Long = 1000 * 60 * 60 * 24
     private val ONE_WEEK: Long = ONE_DAY * 7
-
+    private val BEARER_PREFIX = "Bearer "
     private val LOG = LoggerFactory.getLogger(JwtTokenProvider::class.java)
 
     @PostConstruct
@@ -31,7 +31,7 @@ class JwtTokenProvider(
     }
 
     fun getAccessToken(loginId: String, roles: Array<String>): String {
-        return generate(loginId, ONE_DAY * 180, roles, secretKey)
+        return BEARER_PREFIX + generate(loginId, ONE_DAY * 180, roles, secretKey)
     }
 
     fun validateAccessToken(accessToken: String): Boolean {
@@ -39,7 +39,7 @@ class JwtTokenProvider(
     }
 
     fun getRefreshToken(loginId: String, roles: Array<String>): String {
-        return generate(loginId, ONE_DAY * 180, roles, refreshKey)
+        return BEARER_PREFIX + generate(loginId, ONE_DAY * 180, roles, refreshKey)
     }
 
     fun validateRefreshToken(refreshToken: String): Boolean {

@@ -1,6 +1,9 @@
 package lemonbox.supplement.service
 
-import lemonbox.supplement.data.PillDto
+import lemonbox.supplement.data.CheckDto
+import lemonbox.supplement.data.PillRequestDto
+import lemonbox.supplement.data.PillResponseDto
+import lemonbox.supplement.data.PillStatus
 import lemonbox.supplement.entity.Pill
 import lemonbox.supplement.repository.PillRepository
 import lemonbox.supplement.repository.SupplementRepository
@@ -16,14 +19,13 @@ class PillService (
     private val supplementRepository: SupplementRepository,
     private val userRepository: UserRepository,
 ) {
-    fun changeStatusByDate(requestDto: PillDto) {
+    fun changeStatusByDate(requestDto: PillRequestDto) {
         val supplement = supplementRepository.findById(requestDto.supplementId).orElseThrow {
             throw CustomException(ResponseCode.SUPPLEMENT_NOT_FOUND)
         }
 
-        var pill: Pill
-        if (pillRepository.existsBySupplementAndDate(supplement, requestDto.date)) {
-            pill = pillRepository.findBySupplementAndDate(supplement, requestDto.date)!!
+        var pill = pillRepository.findBySupplementAndDate(supplement, requestDto.date)
+        if (pill != null) {
             pill.status = requestDto.status
         }
         else {
@@ -32,10 +34,48 @@ class PillService (
         pillRepository.save(pill)
     }
 
-    fun readAllByUser(loginId: String, startedAt: LocalDate, endedAt: LocalDate): MutableList<PillDto> {
-        val user = userRepository.findByLoginId(loginId)
-        
+    fun readAllStatusByDateBetween(loginId: String, startedAt: LocalDate, endedAt: LocalDate): MutableList<CheckDto> {
+        val user = userRepository.findByLoginId(loginId)?: throw CustomException(ResponseCode.USER_NOT_FOUND)
+        var supplements = supplementRepository.findByUser(user)
+        var response = mutableListOf<CheckDto>()
 
+        // TODO: 리팩토링 필요
+        var date = startedAt
+        while (date.isBefore(endedAt)) {
+            var pillList = pillRepository.findByUserAndDateAndStatus(user, date, PillStatus.IS_CHECKED)
+            if (pillList.isNotEmpty() && pillList.size == supplements.size) {
+                response.add(CheckDto(date, true))
+            }
+            else {
+                response.add(CheckDto(date, false))
+            }
+
+            date = date.plusDays(1)
+        }
+        return response
     }
 
+    fun readAllByUserAndDate(loginId: String, date: LocalDate): MutableList<PillResponseDto> {
+        val user = userRepository.findByLoginId(loginId)?: throw CustomException(ResponseCode.USER_NOT_FOUND)
+
+        val todayPillList = pillRepository.selectByUserAndDate(user, date)
+        val supplements = supplementRepository.findByUser(user)
+        val response = mutableListOf<PillResponseDto>()
+
+        supplements.forEach {
+            var pill: Pill? = null
+            for (item in todayPillList) {
+                if (item.supplement == it) {
+                    pill = item
+                    break
+                }
+            }
+
+            if (pill != null)
+                response.add(PillResponseDto(pill))
+            else
+                response.add(PillResponseDto(it.id, it.name, date, PillStatus.IS_NOT_CHECKED))
+        }
+        return response
+    }
 }

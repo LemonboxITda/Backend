@@ -34,6 +34,7 @@ class User (
 
     @Column
     var profileImage: String?,
+
 ): BaseEntity(), UserDetails {
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "user")
