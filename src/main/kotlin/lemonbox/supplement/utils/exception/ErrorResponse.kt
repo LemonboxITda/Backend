@@ -1,10 +1,13 @@
 package lemonbox.supplement.utils.exception
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer
 import org.springframework.http.ResponseEntity
 import java.time.LocalDateTime
 
 class ErrorResponse(
-    val timestamp: LocalDateTime = LocalDateTime.now(),
     val status: Int,
     val error: String,
     val code: String,
