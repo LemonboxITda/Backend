@@ -37,28 +37,41 @@ class SecurityConfig(
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http
-            .addFilter(corsConfig.corsFilter())
-            .cors().and()
-            .csrf().disable()
+                .addFilter(corsConfig.corsFilter())
+                .cors().and()
+                .csrf().disable()
 
-            .exceptionHandling()
-            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-            .accessDeniedHandler(jwtAccessDeniedHandler)
-
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
             .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .formLogin().disable()
-            .httpBasic().disable()
-            .headers().frameOptions().disable()
-
+                .formLogin().disable()
+                .httpBasic().disable()
+                .headers().frameOptions().disable()
             .and()
-            .authorizeRequests()
-            .antMatchers("/h2-console/**", "/**").permitAll()
-            .anyRequest().permitAll()
-
+                .authorizeRequests()
+                .antMatchers(
+                    "/h2-console/**",
+                    "/swagger-ui.html",
+                    "/swagger-ui/**",
+                    "/swagger-resources",
+                    "/swagger-resources/**",
+                    "configuration/ui",
+                    "configuration/security",
+                    "/favicon.ico",
+                    "/webjars/**",
+                    "/v2/api-docs",
+                    "/v3/api-docs/**",
+                    "/auth/**",
+                )
+                .permitAll()
+            .and()
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated()
             .and()
             .addFilterBefore(JwtFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter::class.java)
     }

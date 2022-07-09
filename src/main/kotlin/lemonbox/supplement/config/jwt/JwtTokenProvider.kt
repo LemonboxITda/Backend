@@ -1,7 +1,6 @@
 package lemonbox.supplement.config.jwt
 
-import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.*
 import lemonbox.supplement.config.property.JwtProperty
 import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -34,7 +33,7 @@ class JwtTokenProvider(
         return BEARER_PREFIX + generate(loginId, ONE_DAY * 180, roles, secretKey)
     }
 
-    fun validateAccessToken(accessToken: String): Boolean {
+    fun validateAccessToken(accessToken: String?): Boolean {
         return validate(secretKey, accessToken)
     }
 
@@ -42,7 +41,7 @@ class JwtTokenProvider(
         return BEARER_PREFIX + generate(loginId, ONE_DAY * 180, roles, refreshKey)
     }
 
-    fun validateRefreshToken(refreshToken: String): Boolean {
+    fun validateRefreshToken(refreshToken: String?): Boolean {
         return validate(refreshKey, refreshToken)
     }
 
@@ -59,9 +58,22 @@ class JwtTokenProvider(
             .compact()
     }
 
-    fun validate(signature: String, token: String): Boolean {
-        val claims = Jwts.parser().setSigningKey(signature).parseClaimsJws(token)
-        return true
+    fun validate(signature: String, token: String?): Boolean {
+        try {
+            Jwts.parser().setSigningKey(signature).parseClaimsJws(token)
+            return true
+        } catch (e: SignatureException) {
+            LOG.error("Invalid JWT signature")
+        } catch (e: MalformedJwtException) {
+            LOG.error("Invalid JWT token")
+        } catch (e: ExpiredJwtException) {
+            LOG.error("Expired JWT token")
+        } catch (e: UnsupportedJwtException) {
+            LOG.error("Unsupported JWT token")
+        } catch (e: IllegalArgumentException) {
+            LOG.error("JWT claims string is empty")
+        }
+        return false
     }
 
     fun getAuthentication(accessToken: String): Authentication {
