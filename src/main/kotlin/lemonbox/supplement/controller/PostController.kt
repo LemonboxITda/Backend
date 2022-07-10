@@ -3,6 +3,8 @@ package lemonbox.supplement.controller
 import lemonbox.supplement.data.PostRequestDto
 import lemonbox.supplement.service.PostService
 import lemonbox.supplement.utils.exception.ResponseMessage
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -23,12 +25,11 @@ class PostController(
             .body(postService.createPost(requestDto, loginId))
     }
 
-    // TODO: Paging
     @GetMapping
-    fun readAll(): ResponseEntity<Any> {
+    fun readAll(@RequestParam size: Int, @RequestParam page: Int): ResponseEntity<Any> {
         return ResponseEntity
             .ok()
-            .body(postService.readAll())
+            .body(postService.readAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"))))
     }
 
     @GetMapping("/detail/{id}")

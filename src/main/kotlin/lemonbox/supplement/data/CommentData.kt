@@ -9,9 +9,15 @@ data class CommentRequestDto(
 
 data class CommentResponseDto(
     var id: Long,
-    var userInfo: UserInfo,
+    var userInfo: SimpleInfo,
     var content: String,
     var createdAt: Instant
 ) {
-    constructor(comment: Comment): this(comment.id, UserInfo(comment.user), comment.content, comment.createdAt)
+    constructor(comment: Comment): this(comment.id, SimpleInfo(comment.user), comment.content, comment.createdAt)
 }
+
+data class CommentPage(
+    var totalCount: Long,
+    var pageCount: Int,
+    var data: MutableList<CommentResponseDto>
+)

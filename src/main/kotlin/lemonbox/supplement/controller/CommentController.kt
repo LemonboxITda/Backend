@@ -3,6 +3,8 @@ package lemonbox.supplement.controller
 import lemonbox.supplement.data.CommentRequestDto
 import lemonbox.supplement.service.CommentService
 import lemonbox.supplement.utils.exception.ResponseMessage
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -36,10 +38,10 @@ class CommentController(
     }
 
     @GetMapping("/{postId}")
-    fun getCommentList(@PathVariable postId: Long): ResponseEntity<Any> {
+    fun getCommentList(@PathVariable postId: Long, @RequestParam size: Int, @RequestParam page: Int): ResponseEntity<Any> {
         return ResponseEntity
             .ok()
-            .body(commentService.readCommentList(postId))
+            .body(commentService.readCommentList(postId, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"))))
     }
 
     @PutMapping

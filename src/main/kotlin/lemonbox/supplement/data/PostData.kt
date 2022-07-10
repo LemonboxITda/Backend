@@ -12,8 +12,14 @@ data class PostResponseDto(
     var id: Long?,
     var title: String,
     var content: String,
-    var writer: UserInfo,
+    var writer: SimpleInfo,
     var createdAt: Instant,
 ) {
-    constructor(post: Post): this(post.id, post.title, post.content, UserInfo(post.user), post.createdAt)
+    constructor(post: Post): this(post.id, post.title, post.content, SimpleInfo(post.user), post.createdAt)
 }
+
+data class PostPage(
+    var totalCount: Long,
+    var pageCount: Int,
+    var data: MutableList<PostResponseDto>
+)

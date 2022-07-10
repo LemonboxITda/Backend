@@ -1,8 +1,8 @@
 package lemonbox.supplement.service
 
+import lemonbox.supplement.data.CommentPage
 import lemonbox.supplement.data.CommentRequestDto
 import lemonbox.supplement.data.CommentResponseDto
-import lemonbox.supplement.entity.BaseEntity
 import lemonbox.supplement.entity.Comment
 import lemonbox.supplement.repository.CommentRepository
 import lemonbox.supplement.repository.PostRepository
@@ -11,6 +11,7 @@ import lemonbox.supplement.utils.exception.CustomException
 import lemonbox.supplement.utils.exception.ResponseCode
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.awt.print.Pageable
 
 @Service
 class CommentService (
@@ -30,14 +31,15 @@ class CommentService (
     }
 
     @Transactional(readOnly = true)
-    fun readCommentList(postId: Long): MutableList<CommentResponseDto> {
-        val response = mutableListOf<CommentResponseDto>()
+    fun readCommentList(postId: Long, pageable: Pageable): CommentPage {
+        val commentList = mutableListOf<CommentResponseDto>()
         val post = postRepository.findById(postId).orElseThrow { throw CustomException(ResponseCode.POST_NOT_FOUND) }
 
-        commentRepository.findByPost(post).forEach {
-            response.add(CommentResponseDto(it))
+        val pages = commentRepository.findAllByPost(post, pageable)
+        pages.forEach {
+            commentList.add(CommentResponseDto(it))
         }
-        return response
+        return CommentPage(pages.totalElements, pages.totalPages, commentList)
     }
 
     @Transactional
