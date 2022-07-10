@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletRequest
 
 @RestController
+@RequestMapping("/post")
 class PostController(
     private val postService: PostService,
 ) {
@@ -30,7 +31,7 @@ class PostController(
             .body(postService.readAll())
     }
 
-    @GetMapping("/detail")
+    @GetMapping("/detail/{id}")
     fun readById(@PathVariable id: Long): ResponseEntity<Any> {
         return ResponseEntity
             .ok()

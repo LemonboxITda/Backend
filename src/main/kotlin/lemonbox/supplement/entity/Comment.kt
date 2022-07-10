@@ -1,5 +1,6 @@
 package lemonbox.supplement.entity
 
+import lemonbox.supplement.data.CommentRequestDto
 import javax.persistence.*
 
 @Entity
@@ -16,4 +17,10 @@ class Comment(
     @JoinColumn(name = "post_id")
     var post: Post,
 
-): BaseEntity()
+): BaseEntity() {
+    constructor(requestDto: CommentRequestDto, user: User, post: Post): this(
+        content = requestDto.content,
+        user = user,
+        post = post,
+    )
+}
