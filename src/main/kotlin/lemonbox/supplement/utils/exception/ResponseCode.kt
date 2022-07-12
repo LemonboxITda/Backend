@@ -24,8 +24,13 @@ enum class ResponseCode(
     TOKEN_EMPTY(HttpStatus.UNAUTHORIZED, "JWT claims string is empty"),
 
     SUPPLEMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 ID의 영양제가 존재하지 않습니다."),
+
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 ID의 글이 존재하지 않습니다."),
+
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 ID의 댓글이 존재하지 않습니다."),
+
+    ALREADY_LIKED(HttpStatus.BAD_REQUEST, "이미 좋아요한 게시글입니다."),
+    ALREADY_UNLIKED(HttpStatus.BAD_REQUEST, "이미 좋아요를 취소한 게시글입니다."),
 }
 
 data class ResponseMessage(

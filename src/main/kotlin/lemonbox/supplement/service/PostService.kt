@@ -38,9 +38,11 @@ class PostService (
         return PostPage(pages.totalElements, pages.totalPages, postList)
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     fun readById(id: Long): PostResponseDto {
         val post = postRepository.findById(id).orElseThrow { throw CustomException(ResponseCode.POST_NOT_FOUND) }
+        post.views++
+        postRepository.save(post)
         return PostResponseDto(post)
     }
 

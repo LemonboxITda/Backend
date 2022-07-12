@@ -6,23 +6,13 @@ import java.time.Instant
 import javax.persistence.*
 
 @Entity
-@IdClass(PostLikeId::class)
-class PostLike (
-    @Id
+class Heart (
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     var post: Post,
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     var user: User,
-
-    @CreatedDate
-    var createdAt: Instant,
-)
-
-data class PostLikeId(
-    var post: Long,
-    var user: Long,
-): Serializable
+): BaseEntity()

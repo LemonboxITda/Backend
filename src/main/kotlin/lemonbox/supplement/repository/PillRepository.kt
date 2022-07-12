@@ -1,6 +1,6 @@
 package lemonbox.supplement.repository
 
-import lemonbox.supplement.data.PillStatus
+import lemonbox.supplement.data.type.PillStatus
 import lemonbox.supplement.entity.Pill
 import lemonbox.supplement.entity.Supplement
 import lemonbox.supplement.entity.User

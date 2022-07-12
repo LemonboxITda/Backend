@@ -6,55 +6,59 @@ import java.time.LocalDate
 
 data class SignUpRequestDto (
     @Schema(description = "로그인 ID")
-    var loginId: String,
+    val loginId: String,
     @Schema(description = "패스워드")
     var password: String,
     @Schema(description = "닉네임")
-    var nickname: String,
+    val nickname: String,
 )
 
 data class SignInRequestDto (
     @Schema(description = "로그인 ID")
-    var loginId: String,
+    val loginId: String,
     @Schema(description = "패스워드")
     var password: String,
 )
 
 data class SignInResponseDto (
     @Schema(description = "JWT 토큰(Request의 Authorization 헤더에 입력해 전송")
-    var accessToken: String,
+    val accessToken: String,
     @Schema(description = "Refresh 토큰(미구현)")
-    var refreshToken: String,
+    val refreshToken: String,
     @Schema(description = "회원 정보")
-    var userInfo: UserInfo,
+    val userInfo: UserInfo,
 )
 
 data class UserInfo (
     @Schema(description = "회원 인식용 ID")
-    var id: Long,
+    val id: Long,
     @Schema(description = "회원 로그인 ID")
-    var loginId: String,
+    val loginId: String,
     @Schema(description = "회원 닉네임")
-    var nickname: String,
+    val nickname: String,
     @Schema(description = "프로필 이미지 URL")
-    var profileImage: String?,
+    val profileImage: String?,
     @Schema(description = "회원 이메일")
-    var email: String?,
+    val email: String?,
     @Schema(description = "회원 생일")
-    var birth: LocalDate?,
+    val birth: LocalDate?,
 ) {
     constructor(user: User): this(user.id, user.loginId, user.nickname, user.profileImage, user.email, user.birth)
 }
 
 data class SimpleInfo (
     @Schema(description = "회원 인식용 ID")
-    var id: Long,
+    val id: Long,
     @Schema(description = "회원 로그인 ID")
-    var loginId: String,
+    val loginId: String,
     @Schema(description = "회원 닉네임")
-    var nickname: String,
+    val nickname: String,
     @Schema(description = "프로필 이미지 URL")
-    var profileImage: String?,
+    val profileImage: String?,
 ) {
     constructor(user: User): this(user.id, user.loginId, user.nickname, user.profileImage)
 }
+
+data class UserRequestDto (
+    var nickname: String,
+)
