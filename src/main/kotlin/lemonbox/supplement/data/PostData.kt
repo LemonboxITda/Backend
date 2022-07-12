@@ -1,5 +1,6 @@
 package lemonbox.supplement.data
 
+import com.fasterxml.jackson.annotation.JsonFormat
 import lemonbox.supplement.entity.Post
 import java.time.Instant
 
@@ -13,6 +14,7 @@ data class PostResponseDto(
     var title: String,
     var content: String,
     var writer: SimpleInfo,
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     var createdAt: Instant,
 ) {
     constructor(post: Post): this(post.id, post.title, post.content, SimpleInfo(post.user), post.createdAt)
