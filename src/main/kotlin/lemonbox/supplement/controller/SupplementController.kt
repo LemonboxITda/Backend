@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import lemonbox.supplement.data.SupplementRequestDto
 import lemonbox.supplement.data.SupplementResponseDto
+import lemonbox.supplement.data.UpdateRequestDto
 import lemonbox.supplement.service.SupplementService
 import lemonbox.supplement.utils.exception.ErrorResponse
 import lemonbox.supplement.utils.exception.ResponseMessage
@@ -48,12 +49,11 @@ class SupplementController(
     ])
     @PutMapping
     fun updateCount(
-        @Parameter(description = "알약 개수") @RequestParam count: Int,
-        @Parameter(description = "수정할 영양제 ID") @RequestParam supplementId: Long
+        @RequestBody requestDto: UpdateRequestDto
     ): ResponseEntity<Any> {
         return ResponseEntity
             .ok()
-            .body(supplementService.updateCount(supplementId, count))
+            .body(supplementService.updateCount(requestDto))
     }
 
     @Operation(summary = "회원의 영양제 리스트 조회")
@@ -65,7 +65,6 @@ class SupplementController(
     ])
     @GetMapping
     fun readAllByUser(request: HttpServletRequest): ResponseEntity<Any> {
-        // TODO: SecurityConfig에 접근 가능한 URL 설정
         val loginId = request.userPrincipal!!.name
 
         return ResponseEntity

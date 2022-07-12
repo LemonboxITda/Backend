@@ -9,9 +9,9 @@ import lemonbox.supplement.repository.PostRepository
 import lemonbox.supplement.repository.UserRepository
 import lemonbox.supplement.utils.exception.CustomException
 import lemonbox.supplement.utils.exception.ResponseCode
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.awt.print.Pageable
 
 @Service
 class CommentService (

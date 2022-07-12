@@ -1,6 +1,5 @@
 package lemonbox.supplement.service
 
-import lemonbox.supplement.data.CommentPage
 import lemonbox.supplement.data.PostPage
 import lemonbox.supplement.data.PostRequestDto
 import lemonbox.supplement.data.PostResponseDto

@@ -9,7 +9,7 @@ data class CommentRequestDto(
 
 data class CommentResponseDto(
     var id: Long,
-    var userInfo: SimpleInfo,
+    var writer: SimpleInfo,
     var content: String,
     var createdAt: Instant
 ) {
