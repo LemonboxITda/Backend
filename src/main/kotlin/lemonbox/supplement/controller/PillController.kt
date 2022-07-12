@@ -66,9 +66,9 @@ class PillController(
         ApiResponse(responseCode = "200", description = "조회 성공", content = [
             Content(mediaType = "application/json", array = (ArraySchema(schema = Schema(implementation = PillResponseDto::class))))])
     ])
-    @GetMapping("/date")
+    @GetMapping("/date/{date}")
     fun readAllByDate(
-        @Parameter(description = "조회할 날짜") @DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam date: LocalDate,
+        @Parameter(description = "조회할 날짜") @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable date: LocalDate,
         request: HttpServletRequest
     ): ResponseEntity<Any> {
         val loginId = request.userPrincipal.name

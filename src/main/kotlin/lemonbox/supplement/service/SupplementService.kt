@@ -2,6 +2,7 @@ package lemonbox.supplement.service
 
 import lemonbox.supplement.data.SupplementRequestDto
 import lemonbox.supplement.data.SupplementResponseDto
+import lemonbox.supplement.data.UpdateRequestDto
 import lemonbox.supplement.entity.Supplement
 import lemonbox.supplement.repository.SupplementRepository
 import lemonbox.supplement.repository.UserRepository
@@ -23,12 +24,12 @@ class SupplementService (
         return SupplementResponseDto(supplement)
     }
 
-    fun updateCount(id: Long, count: Int): SupplementResponseDto {
-        val supplement = supplementRepository.findById(id).orElseThrow {
+    fun updateCount(requestDto: UpdateRequestDto): SupplementResponseDto {
+        val supplement = supplementRepository.findById(requestDto.id).orElseThrow {
             throw CustomException(ResponseCode.SUPPLEMENT_NOT_FOUND)
         }
 
-        supplement.updateCount(count)
+        supplement.updateCount(requestDto.count)
         supplementRepository.save(supplement)
         return SupplementResponseDto(supplement)
     }

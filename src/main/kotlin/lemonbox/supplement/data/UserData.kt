@@ -45,3 +45,16 @@ data class UserInfo (
 ) {
     constructor(user: User): this(user.id, user.loginId, user.nickname, user.profileImage, user.email, user.birth)
 }
+
+data class SimpleInfo (
+    @Schema(description = "회원 인식용 ID")
+    var id: Long,
+    @Schema(description = "회원 로그인 ID")
+    var loginId: String,
+    @Schema(description = "회원 닉네임")
+    var nickname: String,
+    @Schema(description = "프로필 이미지 URL")
+    var profileImage: String?,
+) {
+    constructor(user: User): this(user.id, user.loginId, user.nickname, user.profileImage)
+}

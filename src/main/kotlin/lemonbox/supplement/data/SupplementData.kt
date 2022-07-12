@@ -20,3 +20,8 @@ data class SupplementResponseDto (
 ) {
     constructor(supplement: Supplement): this(supplement.id, supplement.name, supplement.count)
 }
+
+data class UpdateRequestDto (
+    var id: Long,
+    var count: Int,
+)
