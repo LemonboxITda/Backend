@@ -1,6 +1,6 @@
 package lemonbox.supplement.entity
 
-import lemonbox.supplement.data.PillStatus
+import lemonbox.supplement.data.type.PillStatus
 import java.time.LocalDate
 import javax.persistence.*
 

@@ -3,7 +3,7 @@ package lemonbox.supplement.service
 import lemonbox.supplement.data.CheckDto
 import lemonbox.supplement.data.PillRequestDto
 import lemonbox.supplement.data.PillResponseDto
-import lemonbox.supplement.data.PillStatus
+import lemonbox.supplement.data.type.PillStatus
 import lemonbox.supplement.entity.Pill
 import lemonbox.supplement.repository.PillRepository
 import lemonbox.supplement.repository.SupplementRepository

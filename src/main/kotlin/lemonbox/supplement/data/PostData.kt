@@ -24,7 +24,7 @@ data class PostResponseDto(
         post.title,
         post.content,
         post.views,
-        post.postLikeList.size,
+        post.heartList.size,
         SimpleInfo(post.user),
         post.createdAt
     )

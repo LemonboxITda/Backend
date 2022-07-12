@@ -8,7 +8,7 @@ data class SignUpRequestDto (
     @Schema(description = "로그인 ID")
     val loginId: String,
     @Schema(description = "패스워드")
-    val password: String,
+    var password: String,
     @Schema(description = "닉네임")
     val nickname: String,
 )
@@ -17,7 +17,7 @@ data class SignInRequestDto (
     @Schema(description = "로그인 ID")
     val loginId: String,
     @Schema(description = "패스워드")
-    val password: String,
+    var password: String,
 )
 
 data class SignInResponseDto (

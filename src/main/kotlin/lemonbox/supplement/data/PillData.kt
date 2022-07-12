@@ -1,6 +1,7 @@
 package lemonbox.supplement.data
 
 import io.swagger.v3.oas.annotations.media.Schema
+import lemonbox.supplement.data.type.PillStatus
 import lemonbox.supplement.entity.Pill
 import java.time.LocalDate
 

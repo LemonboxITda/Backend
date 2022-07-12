@@ -23,7 +23,7 @@ class Post (
     var commentList: MutableList<Comment> = mutableListOf(),
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "post")
-    var postLikeList: MutableList<PostLike> = mutableListOf()
+    var heartList: MutableList<Heart> = mutableListOf()
 
 ): BaseEntity() {
     constructor(requestDto: PostRequestDto, user: User): this(

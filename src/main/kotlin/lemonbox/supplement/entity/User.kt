@@ -1,7 +1,7 @@
 package lemonbox.supplement.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import lemonbox.supplement.data.RoleType
+import lemonbox.supplement.data.type.RoleType
 import lemonbox.supplement.data.SignUpRequestDto
 import lombok.NoArgsConstructor
 import org.springframework.security.core.GrantedAuthority
@@ -35,7 +35,7 @@ class User (
     @Column
     var profileImage: String?,
 
-): BaseEntity(), UserDetails {
+    ): BaseEntity(), UserDetails {
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "user")
     var supplementList: MutableList<Supplement> = mutableListOf()
@@ -47,7 +47,7 @@ class User (
     var commentList: MutableList<Comment> = mutableListOf()
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "user")
-    var postLikeList: MutableList<PostLike> = mutableListOf()
+    var heartList: MutableList<Heart> = mutableListOf()
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority>? {
         return null
