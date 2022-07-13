@@ -9,6 +9,9 @@ class Comment(
     @Column
     var content: String,
 
+    @Column
+    var isDeleted: Boolean,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     var user: User,
@@ -22,5 +25,6 @@ class Comment(
         content = requestDto.content,
         user = user,
         post = post,
+        isDeleted = false,
     )
 }

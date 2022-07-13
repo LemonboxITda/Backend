@@ -12,10 +12,11 @@ data class CommentResponseDto(
     var id: Long,
     var writer: SimpleInfo,
     var content: String,
+    var isDeleted: Boolean,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     var createdAt: Instant
 ) {
-    constructor(comment: Comment): this(comment.id, SimpleInfo(comment.user), comment.content, comment.createdAt)
+    constructor(comment: Comment): this(comment.id, SimpleInfo(comment.user), comment.content, comment.isDeleted, comment.createdAt)
 }
 
 data class CommentPage(

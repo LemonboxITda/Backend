@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
-import lemonbox.supplement.data.CommentResponseDto
 import lemonbox.supplement.data.HeartResponseDto
 import lemonbox.supplement.service.HeartService
 import lemonbox.supplement.utils.exception.ErrorResponse
