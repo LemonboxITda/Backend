@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import lemonbox.supplement.data.CommentRequestDto
 import lemonbox.supplement.data.CommentResponseDto
-import lemonbox.supplement.data.PostResponseDto
 import lemonbox.supplement.service.CommentService
 import lemonbox.supplement.utils.exception.ErrorResponse
 import lemonbox.supplement.utils.exception.ResponseMessage
@@ -72,7 +71,7 @@ class CommentController(
     ): ResponseEntity<Any> {
         return ResponseEntity
             .ok()
-            .body(commentService.readCommentList(postId, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"))))
+            .body(commentService.readCommentList(postId, PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "createdAt"))))
     }
 
     @Operation(summary = "댓글 수정 API")

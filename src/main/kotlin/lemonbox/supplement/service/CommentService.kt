@@ -54,6 +54,6 @@ class CommentService (
     @Transactional
     fun deleteComment(commentId: Long) {
         val comment = commentRepository.findById(commentId).orElseThrow { throw CustomException(ResponseCode.COMMENT_NOT_FOUND) }
-        commentRepository.delete(comment)
+        comment.isDeleted = true
     }
 }
