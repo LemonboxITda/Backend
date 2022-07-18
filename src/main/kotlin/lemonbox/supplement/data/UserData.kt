@@ -62,3 +62,9 @@ data class SimpleInfo (
 data class UserRequestDto (
     var nickname: String,
 )
+
+data class UserPage(
+    var totalCount: Long,
+    var pageCount: Int,
+    var data: MutableList<UserInfo>
+)
