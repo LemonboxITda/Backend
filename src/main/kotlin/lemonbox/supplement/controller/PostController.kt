@@ -44,14 +44,16 @@ class PostController(
     @Operation(summary = "게시글 리스트 조회 API")
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "성공", content = [
-            Content(mediaType = "application/json", array = (ArraySchema(schema = Schema(implementation = PostResponseDto::class))))]),
-        ApiResponse(responseCode = "400", description = "size, page를 올바르게 입력해주세요.")
+            Content(mediaType = "application/json", array = (ArraySchema(schema = Schema(implementation = PostResponseDto::class))))])
     ])
     @GetMapping
-    fun readAll(@Parameter(description = "페이징 크기") @RequestParam size: Int, @Parameter(description = "페이지") @RequestParam page: Int): ResponseEntity<Any> {
+    fun readAll(@RequestParam params: MutableMap<String, String>): ResponseEntity<Any> {
+        val page = params["page"]?.toInt() ?: 0
+        val size = params["size"]?.toInt() ?: 10
+
         return ResponseEntity
             .ok()
-            .body(postService.readAll(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"))))
+            .body(postService.readAll(PageRequest.of(page, size), params))
     }
 
     @Operation(summary = "게시글 상세정보 조회 API")

@@ -5,7 +5,7 @@ import lemonbox.supplement.data.CommentRequestDto
 import lemonbox.supplement.data.CommentResponseDto
 import lemonbox.supplement.entity.Comment
 import lemonbox.supplement.repository.CommentRepository
-import lemonbox.supplement.repository.PostRepository
+import lemonbox.supplement.repository.post.PostRepository
 import lemonbox.supplement.repository.UserRepository
 import lemonbox.supplement.utils.exception.CustomException
 import lemonbox.supplement.utils.exception.ResponseCode

@@ -3,7 +3,7 @@ package lemonbox.supplement.service
 import lemonbox.supplement.data.HeartResponseDto
 import lemonbox.supplement.entity.Heart
 import lemonbox.supplement.repository.HeartRepository
-import lemonbox.supplement.repository.PostRepository
+import lemonbox.supplement.repository.post.PostRepository
 import lemonbox.supplement.repository.UserRepository
 import lemonbox.supplement.utils.exception.CustomException
 import lemonbox.supplement.utils.exception.ResponseCode
