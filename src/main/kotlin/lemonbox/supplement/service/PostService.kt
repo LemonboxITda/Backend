@@ -4,7 +4,7 @@ import lemonbox.supplement.data.PostPage
 import lemonbox.supplement.data.PostRequestDto
 import lemonbox.supplement.data.PostResponseDto
 import lemonbox.supplement.entity.Post
-import lemonbox.supplement.repository.PostRepository
+import lemonbox.supplement.repository.post.PostRepository
 import lemonbox.supplement.repository.UserRepository
 import lemonbox.supplement.utils.exception.CustomException
 import lemonbox.supplement.utils.exception.ResponseCode
@@ -27,9 +27,9 @@ class PostService (
     }
 
     @Transactional(readOnly = true)
-    fun readAll(pageable: Pageable): PostPage {
+    fun readAll(pageable: Pageable, queryParams: MutableMap<String, String>): PostPage {
         val postList = mutableListOf<PostResponseDto>()
-        val pages = postRepository.findAll(pageable)
+        val pages = postRepository.findAllPostBySearch(pageable, queryParams)
 
         pages.forEach {
             postList.add(PostResponseDto(it))
