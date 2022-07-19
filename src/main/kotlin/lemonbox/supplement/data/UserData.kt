@@ -1,6 +1,7 @@
 package lemonbox.supplement.data
 
 import io.swagger.v3.oas.annotations.media.Schema
+import lemonbox.supplement.data.type.RoleType
 import lemonbox.supplement.entity.User
 import java.time.LocalDate
 
@@ -11,7 +12,10 @@ data class SignUpRequestDto (
     var password: String,
     @Schema(description = "닉네임")
     val nickname: String,
-)
+    @Schema(description = "닉네임")
+    val role: RoleType,
+
+    )
 
 data class SignInRequestDto (
     @Schema(description = "로그인 ID")
@@ -42,8 +46,10 @@ data class UserInfo (
     val email: String?,
     @Schema(description = "회원 생일")
     val birth: LocalDate?,
+    @Schema(description = "회원 권한")
+    val role: RoleType
 ) {
-    constructor(user: User): this(user.id, user.loginId, user.nickname, user.profileImage, user.email, user.birth)
+    constructor(user: User): this(user.id, user.loginId, user.nickname, user.profileImage, user.email, user.birth, user.role)
 }
 
 data class SimpleInfo (

@@ -2,6 +2,7 @@ package lemonbox.supplement.service
 
 import lemonbox.supplement.config.jwt.JwtTokenProvider
 import lemonbox.supplement.data.*
+import lemonbox.supplement.data.type.RoleType
 import lemonbox.supplement.entity.User
 import lemonbox.supplement.repository.UserRepository
 import lemonbox.supplement.utils.exception.CustomException
@@ -17,9 +18,9 @@ class AuthService(
     private val passwordEncoder: PasswordEncoder,
 ) {
 
-    private fun createToken(userId: String): String {
+    private fun createToken(userId: String, role: RoleType): String {
         val authorities = ArrayList<String>()
-        authorities.add("ROLE_USER")
+        authorities.add(role.toString())
         return jwtTokenProvider.getAccessToken(userId, authorities.toTypedArray())
     }
 
@@ -43,7 +44,7 @@ class AuthService(
         //TODO: refreshToken 넣기
         return SignInResponseDto(
             refreshToken = "",
-            accessToken = createToken(user.loginId),
+            accessToken = createToken(user.loginId, user.role),
             userInfo = UserInfo(user)
         )
     }

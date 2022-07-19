@@ -1,7 +1,6 @@
 package lemonbox.supplement.repository.post
 
 import com.querydsl.core.types.dsl.BooleanExpression
-import com.querydsl.core.types.dsl.Expressions
 import lemonbox.supplement.entity.Post
 import lemonbox.supplement.entity.QPost
 import lemonbox.supplement.repository.QuerydslCustomRepositorySupport
