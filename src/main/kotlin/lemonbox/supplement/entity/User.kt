@@ -84,6 +84,6 @@ class User (
         profileImage = null,
         email = null,
         birth = null,
-        role = RoleType.ROLE_USER
+        role = requestDto.role
     )
 }
