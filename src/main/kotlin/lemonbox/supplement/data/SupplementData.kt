@@ -17,8 +17,10 @@ data class SupplementResponseDto (
     var name: String,
     @Schema(description = "알약 개수")
     var count: Int,
+    @Schema(description = "재구매 횟수")
+    var repill: Int,
 ) {
-    constructor(supplement: Supplement): this(supplement.id, supplement.name, supplement.count)
+    constructor(supplement: Supplement): this(supplement.id, supplement.name, supplement.count, supplement.repill)
 }
 
 data class UpdateRequestDto (

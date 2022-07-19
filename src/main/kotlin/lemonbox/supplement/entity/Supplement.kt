@@ -16,6 +16,9 @@ class Supplement (
     @Column
     var count: Int,
 
+    @Column
+    var repill: Int,
+
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "supplement")
     var pillList: MutableList<Pill> = mutableListOf()
 
@@ -23,10 +26,12 @@ class Supplement (
     constructor(requestDto: SupplementRequestDto, user: User): this(
         name = requestDto.name,
         user = user,
-        count = requestDto.count
+        count = requestDto.count,
+        repill = 0,
     )
 
     fun updateCount(count: Int) {
         this.count = count
+        this.repill++
     }
 }

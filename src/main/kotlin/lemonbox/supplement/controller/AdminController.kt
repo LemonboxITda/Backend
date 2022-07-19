@@ -49,7 +49,7 @@ class AdminController(
     fun readUser(@PathVariable loginId: String): ResponseEntity<Any> {
         return ResponseEntity
             .ok()
-            .body(userService.readByLoginId(loginId))
+            .body(userService.readAdminInformationByLoginId(loginId))
     }
 
     @Operation(summary = "모든 게시글 조회 API")

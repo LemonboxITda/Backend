@@ -15,19 +15,23 @@ class UserService (
 
     @Transactional(readOnly = true)
     fun readAll(pageable: Pageable): UserPage {
-        val userList = mutableListOf<UserInfo>()
+        val userList = mutableListOf<UserAdminInfo>()
         val pages = userRepository.findAll(pageable)
 
         pages.forEach {
-            userList.add(UserInfo(it))
+            userList.add(UserAdminInfo(it))
         }
         return UserPage(pages.totalElements, pages.totalPages, userList)
     }
 
     fun readByLoginId(loginId: String): UserInfo {
         val user = userRepository.findByLoginId(loginId)?: throw CustomException(ResponseCode.USER_NOT_FOUND)
-
         return UserInfo(user)
+    }
+
+    fun readAdminInformationByLoginId(loginId: String): UserAdminInfo {
+        val user = userRepository.findByLoginId(loginId)?: throw CustomException(ResponseCode.USER_NOT_FOUND)
+        return UserAdminInfo(user)
     }
 
     fun updateUserInfo(loginId: String, requestDto: UserRequestDto): UserInfo {
