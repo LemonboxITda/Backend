@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest
 @RestController
 @RequestMapping("/heart")
 class HeartController(
-    private val postLikeService: HeartService
+    private val heartService: HeartService
 ) {
     @Operation(summary = "좋아요 API")
     @ApiResponses(value = [
@@ -41,7 +41,7 @@ class HeartController(
 
         return ResponseEntity
             .ok()
-            .body(postLikeService.likePost(loginId, postId))
+            .body(heartService.likePost(loginId, postId))
     }
 
     @Operation(summary = "좋아요 취소 API")
@@ -60,6 +60,6 @@ class HeartController(
 
         return ResponseEntity
             .ok()
-            .body(postLikeService.unlikePost(loginId, postId))
+            .body(heartService.unlikePost(loginId, postId))
     }
 }
