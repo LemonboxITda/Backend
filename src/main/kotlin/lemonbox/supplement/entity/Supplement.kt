@@ -32,6 +32,6 @@ class Supplement (
 
     fun updateCount(count: Int) {
         this.count = count
-        this.repill++
+        if (count == 30) this.repill++
     }
 }
