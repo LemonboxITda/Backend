@@ -1,1 +1,1 @@
-INSERT INTO user(login_id, nickname, password, role) VALUES ('lemonbox','레몬박스','itda','ROLE_ADMIN')
+INSERT INTO user(created_at, updated_at, login_id, nickname, password, role) VALUES ('2022-07-28 16:10:24','2022-07-28 16:10:24','lemonbox','레몬박스','{bcrypt}$2a$10$Pg5yolENxDD5bOhTfABUEeZlMYCuHcgUjQX1aPZFXzvW5RXhMbkiK','ROLE_ADMIN')

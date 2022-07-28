@@ -17,6 +17,6 @@ abstract class BaseEntity {
     lateinit var createdAt: Instant
 
     @LastModifiedDate
-    lateinit var updateAt: Instant
+    lateinit var updatedAt: Instant
 
 }
