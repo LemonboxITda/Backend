@@ -24,13 +24,15 @@ class PillService (
             throw CustomException(ResponseCode.SUPPLEMENT_NOT_FOUND)
         }
 
-        var pill = pillRepository.findBySupplementAndDate(supplement, requestDto.date)
-        if (pill != null) {
-            pill.status = requestDto.status
+        if (requestDto.status == PillStatus.IS_CHECKED) {
+            supplement.count--
         }
         else {
-            pill = Pill(supplement, requestDto.status, requestDto.date)
+            supplement.count++
         }
+
+        var pill = pillRepository.findBySupplementAndDate(supplement, requestDto.date) ?: Pill(supplement, requestDto.status, requestDto.date)
+        pill.status = requestDto.status
         pillRepository.save(pill)
     }
 

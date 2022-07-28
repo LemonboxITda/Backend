@@ -17,10 +17,12 @@ import lemonbox.supplement.utils.exception.ResponseMessage
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @Tag(name = "admin", description = "ADMIN API")
 @RestController
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequestMapping("/admin")
 class AdminController(
     private val userService: UserService,

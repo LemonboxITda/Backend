@@ -26,8 +26,8 @@ class AuthService(
 
     @Transactional
     fun signUp(requestDto: SignUpRequestDto): UserInfo {
-        if (validateNickname(requestDto.nickname) != ResponseCode.OK) throw CustomException(ResponseCode.USER_ID_DUPLICATED)
-        if (validateLoginId(requestDto.loginId) != ResponseCode.OK) throw CustomException(ResponseCode.USER_NICKNAME_DUPLICATED)
+        if (validateNickname(requestDto.nickname) != ResponseCode.OK) throw CustomException(ResponseCode.USER_NICKNAME_DUPLICATED)
+        if (validateLoginId(requestDto.loginId) != ResponseCode.OK) throw CustomException(ResponseCode.USER_ID_DUPLICATED)
 
         requestDto.password = passwordEncoder.encode(requestDto.password)
         return UserInfo(userRepository.save(User(requestDto)))
