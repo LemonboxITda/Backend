@@ -34,6 +34,7 @@ class PillService (
         var pill = pillRepository.findBySupplementAndDate(supplement, requestDto.date) ?: Pill(supplement, requestDto.status, requestDto.date)
         pill.status = requestDto.status
         pillRepository.save(pill)
+        supplementRepository.save(supplement)
     }
 
     fun readAllStatusByDateBetween(loginId: String, startedAt: LocalDate, endedAt: LocalDate): MutableList<CheckDto> {
