@@ -59,7 +59,6 @@ class PillService (
 
     fun readAllByUserAndDate(loginId: String, date: LocalDate): MutableList<PillResponseDto> {
         val user = userRepository.findByLoginId(loginId)?: throw CustomException(ResponseCode.USER_NOT_FOUND)
-
         val todayPillList = pillRepository.selectByUserAndDate(user, date)
         val supplements = supplementRepository.findByUser(user)
         val response = mutableListOf<PillResponseDto>()
@@ -67,7 +66,7 @@ class PillService (
         supplements.forEach {
             var pill: Pill? = null
             for (item in todayPillList) {
-                if (item.supplement == it) {
+                if (item.supplement.id == it.id) {
                     pill = item
                     break
                 }
