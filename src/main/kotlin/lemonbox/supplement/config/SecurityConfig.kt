@@ -6,7 +6,6 @@ import lemonbox.supplement.config.jwt.JwtFilter
 import lemonbox.supplement.config.jwt.JwtTokenProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -38,10 +37,9 @@ class SecurityConfig(
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http
-                .addFilter(corsConfig.corsFilter())
-                .cors().and()
+                .cors()
+            .and()
                 .csrf().disable()
-
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
