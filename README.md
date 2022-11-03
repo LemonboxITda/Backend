@@ -17,9 +17,17 @@
 
 ### API 문서
 
+<img src="https://github.com/LemonboxITda/Backend/blob/main/images/lemonbox_api1.jpg?raw=true"></img>
+
+<img src="https://github.com/LemonboxITda/Backend/blob/main/images/lemonbox_api2.jpg?raw=true"></img>
+
+<img src="https://github.com/LemonboxITda/Backend/blob/main/images/lemonbox_api3.jpg?raw=true"></img>
+
+<img src="https://github.com/LemonboxITda/Backend/blob/main/images/lemonbox_api4.jpg?raw=true"></img>
 
 ### ERD
 
+<img src="https://github.com/LemonboxITda/Backend/blob/main/images/lemonbox_erd.jpg?raw=true"></img>
 
 ### 홈
 - 서비스 소개
